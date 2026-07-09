@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 
 @Entity
 public class Cliente extends Pessoa {
+	
+    @Column(unique = true, nullable = false)
+    private String cpf;
+
 
 	private String cpf;
 
