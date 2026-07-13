@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head></h:head> 
+<body> 
+<h:messages />
+<h:form>
+	<h:panelGrid columns="2">
+		<h:outputLabel value="Nome:" />
+		<h:inputText value="#{entregadorBean.entregador.nome}" />
+		<h:outputLabel value="Celular:" />
+		<h:inputText value="#{entregadorBean.entregador.celular}" />
+		<h:outputLabel value="CNH:" />
+		<h:inputText value="#{entregadorBean.entregador.cnh}" />
+		<h:outputLabel value="Categoria CNH:" />
+		<h:selectOneMenu value="#{entregadorBean.entregador.categoriaCnh}">
+			<f:selectItem itemLabel="Selecione" itemValue="" />
+			<f:selectItem itemLabel="A" itemValue="A" />
+			<f:selectItem itemLabel="B" itemValue="B" />
+			<f:selectItem itemLabel="AB" itemValue="AB" />
+		</h:selectOneMenu>
+		<h:commandButton action="#{entregadorBean.gravarEntregador()}" value="Salvar" 
+							rendered="#{!entregadorBean.edicao}" />
+		<h:commandButton action="#{pacienteBean.atualizarEntregador()}" value="Atualizar" 
+							rendered="#{entregadorBean.edicao}"/>
+	</h:panelGrid>
+</h:form>
+
+</body> 
+</html>
