@@ -8,26 +8,85 @@
 <body> 
 <h:messages />
 <h:form>
+	<h2>Informações Básicas</h2>
 	<h:panelGrid columns="2">
 		<h:outputLabel value="Nome:" />
-		<h:inputText value="#{entregadorBean.entregador.nome}" />
+		<h:inputText value="#{entregadorBean.entregador.nome}" required="true"/>
 		<h:outputLabel value="Celular:" />
-		<h:inputText value="#{entregadorBean.entregador.celular}" />
+		<h:inputText value="#{entregadorBean.entregador.celular}" required="true"/>
 		<h:outputLabel value="CNH:" />
-		<h:inputText value="#{entregadorBean.entregador.cnh}" />
+		<h:inputText value="#{entregadorBean.entregador.cnh}" required="true"/>
 		<h:outputLabel value="Categoria CNH:" />
-		<h:selectOneMenu value="#{entregadorBean.entregador.categoriaCnh}">
+		<h:selectOneMenu value="#{entregadorBean.entregador.categoriaCnh}" required="true">
 			<f:selectItem itemLabel="Selecione" itemValue="" />
 			<f:selectItem itemLabel="A" itemValue="A" />
 			<f:selectItem itemLabel="B" itemValue="B" />
 			<f:selectItem itemLabel="AB" itemValue="AB" />
 		</h:selectOneMenu>
+	</h:panelGrid>
+	<h2>Endereço</h2>
+	<h:panelGrid columns="2">
+		<h:outputLabel value="Rua:" />
+		<h:inputText value="#{entregadorBean.entregador.endereco.rua}" required="true"/>
+		<h:outputLabel value="Número:" />
+		<h:inputText value="#{entregadorBean.entregador.endereco.numero}" required="true"/>
+		<h:outputLabel value="Bairro:" />
+		<h:inputText value="#{entregadorBean.entregador.endereco.bairro}" required="true"/>
+		<h:outputLabel value="Cidade:" />
+		<h:inputText value="#{entregadorBean.entregador.endereco.cidade}" required="true"/>
 		<h:commandButton action="#{entregadorBean.gravarEntregador()}" value="Salvar" 
 							rendered="#{!entregadorBean.edicao}" />
 		<h:commandButton action="#{pacienteBean.atualizarEntregador()}" value="Atualizar" 
 							rendered="#{entregadorBean.edicao}"/>
 	</h:panelGrid>
 </h:form>
+<h:form>
+	<h:panelGrid columns="3">
+		<h:outputLabel value="Nome:" />
+		<h:inputText value="#{entregadorBean.texto}" />
+		<h:commandButton action="#{entregadorBean.pesquisarEntregador()}" value="Pesquisar" />
+	</h:panelGrid>
+	<h:dataTable value="#{entregadorBean.entregadores}" var="entrAtual" border="1">
+		<h:column>
+			<f:facet name="header">Nome</f:facet>
+			<h:outputText value="#{entrAtual.nome}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">Celular</f:facet>
+			<h:outputText value="#{entrAtual.celular}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">CNH</f:facet>
+			<h:outputText value="#{entrAtual.cnh}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">Categoria da CNH</f:facet>
+			<h:outputText value="#{entrAtual.categoriaCnh}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">Cidade</f:facet>
+			<h:outputText value="#{entrAtual.endereco.cidade}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">Bairro</f:facet>
+			<h:outputText value="#{entrAtual.endereco.bairro}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">Rua</f:facet>
+			<h:outputText value="#{entrAtual.endereco.rua}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">Número</f:facet>
+			<h:outputText value="#{entrAtual.endereco.numero}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">Ações</f:facet>
+			<h:commandButton action="#{entregadorBean.excluirEntregador(entrAtual)}" value="Excluir" />
+			<h:commandButton action="#{entregadorBean.carregarEntregador(entrAtual)}" value="Editar" />
+		</h:column>	
+	</h:dataTable>
+</h:form>
+
 
 </body> 
 </html>

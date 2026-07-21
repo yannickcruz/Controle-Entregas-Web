@@ -1,5 +1,6 @@
 package modelo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,8 +18,8 @@ public class Pessoa {
 	private String nome;
 	private String celular;
 
-	@OneToOne
-	private Endereco endereco;
+	@OneToOne(cascade = CascadeType.ALL)
+	private Endereco endereco = new Endereco();
 
 	public Pessoa() {}
 
