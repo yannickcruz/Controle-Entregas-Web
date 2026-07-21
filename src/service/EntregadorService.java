@@ -17,6 +17,20 @@ public class EntregadorService extends GenericService<Entregador> {
 		super(Entregador.class);
 	}
 	
+	@Override
+	public List<Entregador> listAll() {
+	    final CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
+	    final CriteriaQuery<Entregador> cQuery = cBuilder.createQuery(Entregador.class);
+	    final Root<Entregador> rootEntregador = cQuery.from(Entregador.class);
+	    cQuery.select(rootEntregador);
+
+	    final Expression<String> expNome = rootEntregador.get("nome");
+	    cQuery.orderBy(cBuilder.asc(expNome));
+
+	    List<Entregador> list = getEntityManager().createQuery(cQuery).getResultList();
+    	return list;
+	}
+	
 	public List<Entregador> pesquisarEntregadorPorNome(String texto){
 	    
 	    final CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
