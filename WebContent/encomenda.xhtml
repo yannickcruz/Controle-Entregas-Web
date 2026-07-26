@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head></h:head> 
+<body> 
+
+<h:messages />
+<h:form>
+<h:panelGrid columns="2">
+	<h:outputLabel value="Código de Rastreio:" />
+	<h:inputText value="#{encomendaBean.encomenda.codigoRastreio}" />
+	<h:outputLabel value="Valor:" />
+	<h:inputText value="#{encomendaBean.encomenda.valor}" />
+	<h:outputLabel value="Cliente:" />
+	<h:selectOneMenu value="#{encomendaBean.idCliente}">
+		<f:selectItem itemValue="0" itemLabel="Selecione..."/>
+		<f:selectItems value="#{encomendaBean.clientes}" var="cliAtual"
+			itemLabel="#{cliAtual.nome}" itemValue="#{cliAtual.id}"/>
+	</h:selectOneMenu>
+	<h:outputLabel value="Entregador:" />
+	<h:selectOneMenu value="#{encomendaBean.idEntregador}">
+		<f:selectItem itemValue="0" itemLabel="Selecione..."/>
+		<f:selectItems value="#{encomendaBean.entregadores}" var="entrAtual"
+			itemLabel="#{entrAtual.nome}" itemValue="#{entrAtual.id}"/>
+	</h:selectOneMenu>
+	<h:commandButton action="#{encomendaBean.gravar()}" value="Gravar" />
+</h:panelGrid>
+</h:form>
+
+<h:form>
+<h:dataTable border="1" value="#{encomendaBean.encomendas}" var="encoAtual">
+	<h:column>
+		<f:facet name="header">Código de Rastreio</f:facet>
+		<h:outputText value="#{encoAtual.codigoRastreio}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Valor</f:facet>
+		<h:outputText value="#{encoAtual.valor}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Cliente</f:facet>
+		<h:outputText value="#{encoAtual.cliente.nome}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Entregador</f:facet>
+		<h:outputText value="#{encoAtual.entregador.nome}" />
+	</h:column>
+	<h:column>
+		<f:facet name="header">Ações</f:facet>
+		<h:commandButton action="#{encomendaBean.excluirEncomenda(encoAtual)}" value="Excluir" />
+		<h:commandButton action="#{encomendaBean.carregarEncomenda(encoAtual)}" value="Editar" />
+	</h:column>
+</h:dataTable>
+</h:form>
+</body> 
+</html>
