@@ -54,7 +54,7 @@ public class EncomendaBean {
 	
 	public void carregarEncomenda(Encomenda e) {
 		encomenda = e;
-		idCliente = e.getCliente().getId();
+		//idCliente = e.getCliente().getId();
 		idEntregador = e.getEntregador().getId();
 	}
 	
