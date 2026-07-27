@@ -8,12 +8,19 @@
 <body> 
 
 <h:messages />
+
+<h:form>
+<h:panelGrid columns="1">
+	<h:commandLink action="index?faces-redirect=true" value="Voltar para tela inicial" />
+</h:panelGrid>
+</h:form>
+
 <h:form>
 <h:panelGrid columns="2">
 	<h:outputLabel value="Código de Rastreio:" />
-	<h:inputText value="#{encomendaBean.encomenda.codigoRastreio}" />
+	<h:inputText required="true" value="#{encomendaBean.encomenda.codigoRastreio}" />
 	<h:outputLabel value="Valor:" />
-	<h:inputText value="#{encomendaBean.encomenda.valor}" />
+	<h:inputText required="true" value="#{encomendaBean.encomenda.valor}" />
 	<h:outputLabel value="Cliente:" />
 	<h:selectOneMenu value="#{encomendaBean.idCliente}">
 		<f:selectItem itemValue="0" itemLabel="Selecione..."/>
@@ -21,8 +28,8 @@
 			itemLabel="#{cliAtual.nome}" itemValue="#{cliAtual.id}"/>
 	</h:selectOneMenu>
 	<h:outputLabel value="Entregador:" />
-	<h:selectOneMenu value="#{encomendaBean.idEntregador}">
-		<f:selectItem itemValue="0" itemLabel="Selecione..."/>
+	<h:selectOneMenu required="true" value="#{encomendaBean.idEntregador}">
+		<f:selectItem itemValue="" itemLabel="Selecione..."/>
 		<f:selectItems value="#{encomendaBean.entregadores}" var="entrAtual"
 			itemLabel="#{entrAtual.nome}" itemValue="#{entrAtual.id}"/>
 	</h:selectOneMenu>
