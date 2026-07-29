@@ -5,54 +5,47 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
-
-import modelo.Cliente;
 import modelo.Encomenda;
-import modelo.Entregador;
 
 @Stateless
 public class EncomendaService extends GenericService<Encomenda> {
+	
+	public EncomendaService() {
+		super(Encomenda.class);
+	}
+	
+	public boolean existeEncomendaEntregador(Long idEntregador) {
+		final CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
+	    final CriteriaQuery<Long> cQuery = cBuilder.createQuery(Long.class);
+	    final Root<Encomenda> rootEncomenda = cQuery.from(Encomenda.class);
+	    cQuery.select(cBuilder.count(rootEncomenda));
+	    
+	    cQuery.where(cBuilder.equal(rootEncomenda.get("entregador").get("id"), idEntregador));
+	    
+	    Long quantidade = getEntityManager().createQuery(cQuery).getSingleResult();
+	    if(quantidade > 0) {
+	    	return true;
+	    }
+	    return false;
 
-    public EncomendaService() {
-        super(Encomenda.class);
-    }
+	}
+	
+	public List<Encomenda> pesquisarEncomendaPorCodigo(String texto){
+	    
+	    final CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
+	    final CriteriaQuery<Encomenda> cQuery = cBuilder.createQuery(Encomenda.class);
+	    final Root<Encomenda> rootEncomenda = cQuery.from(Encomenda.class);
+	    cQuery.select(rootEncomenda);
 
-    public boolean clientePossuiEncomendas(Cliente cliente) {
+	    final Expression<String> expNome = rootEncomenda.get("codigo");
 
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+	    cQuery.where(cBuilder.like(expNome, "%"+texto+"%"));
+	    cQuery.orderBy(cBuilder.asc(expNome));
 
-        CriteriaQuery<Encomenda> cq = cb.createQuery(Encomenda.class);
-
-        Root<Encomenda> root = cq.from(Encomenda.class);
-
-        cq.select(root);
-
-        cq.where(cb.equal(root.get("cliente"), cliente));
-
-        List<Encomenda> resultado = getEntityManager()
-                .createQuery(cq)
-                .getResultList();
-
-        return !resultado.isEmpty();
-    }
-    
-    public boolean entregadorPossuiEncomendas(Entregador entregador) {
-
-        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
-
-        CriteriaQuery<Encomenda> cq = cb.createQuery(Encomenda.class);
-
-        Root<Encomenda> root = cq.from(Encomenda.class);
-
-        cq.select(root);
-
-        cq.where(cb.equal(root.get("entregador"), entregador));
-
-        List<Encomenda> resultado = getEntityManager()
-                .createQuery(cq)
-                .getResultList();
-
-        return !resultado.isEmpty();
-    }
+	    List<Encomenda> resultado = getEntityManager().createQuery(cQuery).getResultList();
+	            
+	    return resultado;
+	}
 }
