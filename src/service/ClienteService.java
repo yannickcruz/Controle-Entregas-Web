@@ -1,65 +1,98 @@
 package service;
 
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
-import modelo.Entregador;
+import modelo.Cliente;
 
+@Stateless
 public class ClienteService extends GenericService<Cliente> {
 
     public ClienteService() {
         super(Cliente.class);
     }
 
-    public List<Cliente> pesquisarClientePorNome(String texto) {
-	    final CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
-	    final CriteriaQuery<Cliente> cQuery = cBuilder.createQuery(Cliente.class);
-	    final Root<Cliente> rootCliente = cQuery.from(Cliente.class);
-	    cQuery.select(rootCliente);
+    public List<Cliente> listarOrdenadoPorNome() {
 
-	    final Expression<String> expNome = rootCliente.get("nome");
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Cliente> query = cb.createQuery(Cliente.class);
+        Root<Cliente> root = query.from(Cliente.class);
 
-	    cQuery.where(cBuilder.like(expNome, "%"+texto+"%"));
-	    cQuery.orderBy(cBuilder.asc(expNome));
+        query.select(root);
+        query.orderBy(cb.asc(root.get("nome")));
 
-	    List<Cliente> resultado = getEntityManager().createQuery(cQuery).getResultList();
-	            
-	    return resultado;
+        return getEntityManager()
+                .createQuery(query)
+                .getResultList();
+    }
+
+    public boolean existeCpf(String cpf) {
+        return existeCpf(cpf, null);
     }
 
     public boolean existeCpf(String cpf, Long idCliente) {
 
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Long> query = cb.createQuery(Long.class);
+        Root<Cliente> root = query.from(Cliente.class);
 
-        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-
-        Root<Cliente> root = cq.from(Cliente.class);
-
-        cq.select(cb.count(root));
+        query.select(cb.count(root));
 
         if (idCliente == null) {
-
-            cq.where(
-                cb.equal(root.get("cpf"), cpf)
-            );
-
+            query.where(cb.equal(root.get("cpf"), cpf));
         } else {
-
-            cq.where(
-                cb.and(
-                    cb.equal(root.get("cpf"), cpf),
-                    cb.notEqual(root.get("id"), idCliente)
-                )
-            );
+            query.where(cb.and(
+                cb.equal(root.get("cpf"), cpf),
+                cb.notEqual(root.get("id"), idCliente)
+            ));
         }
 
         Long quantidade = getEntityManager()
-                .createQuery(cq)
+                .createQuery(query)
                 .getSingleResult();
 
         return quantidade > 0;
     }
 
+
+    @Override
+    public void create(Cliente cliente) {
+
+        if (cliente.getCpf() == null || cliente.getCpf().trim().isEmpty()) {
+            throw new RuntimeException("CPF é obrigatório");
+        }
+
+        if (existeCpf(cliente.getCpf())) {
+            throw new RuntimeException("CPF já cadastrado");
+        }
+
+        super.create(cliente);
+    }
+
+    @Override
+    public Cliente merge(Cliente cliente) {
+
+        if (cliente.getId() == null) {
+            throw new RuntimeException("Cliente inválido para atualização");
+        }
+
+        if (cliente.getCpf() == null || cliente.getCpf().trim().isEmpty()) {
+            throw new RuntimeException("CPF é obrigatório");
+        }
+
+        if (existeCpf(cliente.getCpf(), cliente.getId())) {
+            throw new RuntimeException("CPF já cadastrado para outro cliente");
+        }
+
+        return super.merge(cliente);
+    }
+    
+    public List<Cliente> listAllOrdenado() {
+        return listarOrdenadoPorNome();
+    }
 }

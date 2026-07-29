@@ -9,6 +9,7 @@ import javax.persistence.criteria.Root;
 
 import modelo.Cliente;
 import modelo.Encomenda;
+import modelo.Entregador;
 
 @Stateless
 public class EncomendaService extends GenericService<Encomenda> {

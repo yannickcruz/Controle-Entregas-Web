@@ -1,85 +1,106 @@
 package controle;
 
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import modelo.Cliente;
 import service.ClienteService;
-import service.EncomendaService;
 
 @ManagedBean
 @ViewScoped
-public class ClienteBean implements Serializable {
+public class ClienteBean {
 
-    private static final long serialVersionUID = 1L;
+    private Cliente cliente = new Cliente();
+    private List<Cliente> listaClientes = new ArrayList<>();
+    private Boolean edicao = false;
 
     @EJB
     private ClienteService clienteService;
 
-    @EJB
-    private EncomendaService encomendaService;
-
-    private Cliente cliente;
-
-    private List<Cliente> listaClientes;
-
-    private String filtroNome;
-
     @PostConstruct
-    public void init() {
-        novo();
-        listar();
+    public void iniciar() {
+        atualizarLista();
     }
 
-    public void novo() {
-        cliente = new Cliente();
+    public void salvarCliente() {
+        try {
+            clienteService.create(cliente);
+            cliente = new Cliente();
+            atualizarLista();
+            addMensagem("Cliente cadastrado com sucesso!");
+        } catch (Exception e) {
+            addMensagem(e.getMessage());
+        }
     }
 
-    public void listar() {
-        listaClientes = clienteService.listAll();
+    public void editarCliente() {
+        try {
+            clienteService.merge(cliente);
+            cliente = new Cliente();
+            edicao = false;
+            atualizarLista();
+            addMensagem("Cliente atualizado com sucesso!");
+        } catch (Exception e) {
+            addMensagem(e.getMessage());
+        }
     }
 
-	public ClienteService getClienteService() {
-		return clienteService;
-	}
+    public void excluirCliente(Cliente c) {
+        clienteService.remove(c);
+        atualizarLista();
+        addMensagem("Cliente excluído!");
+    }
 
+    public void carregarCliente(Cliente c) {
+        this.cliente = c;
+        this.edicao = true;
+    }
 
-	public EncomendaService getEncomendaService() {
-		return encomendaService;
-	}
+    public void novoCliente() {
+        this.cliente = new Cliente();
+        this.edicao = false;
+    }
 
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public List<Cliente> getListaClientes() {
-		return listaClientes;
-	}
-
-	public void setListaClientes(List<Cliente> listaClientes) {
-		this.listaClientes = listaClientes;
-	}	
-
-	public String getFiltroNome() {
-		return filtroNome;
-	}
-
-	public void setFiltroNome(String filtroNome) {
-		this.filtroNome = filtroNome;
-	}
-
+    private void atualizarLista() {
+        listaClientes = clienteService.listarOrdenadoPorNome();
+    }
 
     
 
+    private void addMensagem(String msg) {
+        FacesContext.getCurrentInstance()
+            .addMessage(null, new FacesMessage(msg));
+    }
+  
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<Cliente> getListaClientes() {
+        return listaClientes;
+    }
+
+    public void setListaClientes(List<Cliente> listaClientes) {
+        this.listaClientes = listaClientes;
+    }
+
+    public Boolean getEdicao() {
+        return edicao;
+    }
+
+    public void setEdicao(Boolean edicao) {
+        this.edicao = edicao;
+    }
 }

@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Gerenciar Clientes</title>
+</h:head>
+
+<h:body>
+
+
+    <h:form>
+
+        <h3>Cadastro de Cliente</h3>
+
+        <h:panelGrid columns="2">
+
+            <h:outputLabel value="Nome:" />
+            <h:inputText value="#{clienteBean.cliente.nome}"
+                         required="true"
+                         requiredMessage="Informe o nome."/>
+
+            <h:outputLabel value="CPF:" />
+            <h:inputText value="#{clienteBean.cliente.cpf}"
+                         required="true"
+                         requiredMessage="Informe o CPF."
+                         disabled="#{clienteBean.edicao}">
+                <f:validateLength minimum="11" maximum="11"/>
+            </h:inputText>
+
+            <h:outputLabel value="Celular:" />
+            <h:inputText value="#{clienteBean.cliente.celular}"
+                         required="true"
+                         requiredMessage="Informe o celular."/>
+
+            <h:outputLabel value="Rua:" />
+            <h:inputText value="#{clienteBean.cliente.endereco.rua}"
+                         required="true"
+                         requiredMessage="Informe a rua."/>
+
+            <h:outputLabel value="Número:" />
+            <h:inputText value="#{clienteBean.cliente.endereco.numero}"
+                         required="true"
+                         requiredMessage="Informe o número."/>
+
+            <h:outputLabel value="Bairro:" />
+            <h:inputText value="#{clienteBean.cliente.endereco.bairro}"
+                         required="true"
+                         requiredMessage="Informe o bairro."/>
+
+            <h:outputLabel value="Cidade:" />
+            <h:inputText value="#{clienteBean.cliente.endereco.cidade}"
+                         required="true"
+                         requiredMessage="Informe a cidade."/>
+
+        </h:panelGrid>
+
+        <br/>
+
+        <h:commandButton value="Salvar"
+                         action="#{clienteBean.salvarCliente}"
+                         rendered="#{!clienteBean.edicao}" />
+
+        <h:commandButton value="Atualizar"
+                         action="#{clienteBean.editarCliente}"
+                         rendered="#{clienteBean.edicao}" />
+
+        <h:commandButton value="Novo"
+                         action="#{clienteBean.novoCliente}"
+                         immediate="true"/>
+
+    </h:form>
+
+    <br/>
+
+    <h:form>
+
+        <h3>Clientes Cadastrados</h3>
+
+        <h:dataTable value="#{clienteBean.listaClientes}"
+                     var="c"
+                     border="1"
+                     cellpadding="5">
+
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                #{c.nome}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">CPF</f:facet>
+                #{c.cpf}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Celular</f:facet>
+                #{c.celular}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Rua</f:facet>
+                #{c.endereco.rua}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Número</f:facet>
+                #{c.endereco.numero}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Bairro</f:facet>
+                #{c.endereco.bairro}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Cidade</f:facet>
+                #{c.endereco.cidade}
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Ações</f:facet>
+
+                <h:commandButton value="Editar"
+                                 action="#{clienteBean.carregarCliente(c)}"/>
+
+                <h:commandButton value="Excluir"
+                                 action="#{clienteBean.excluirCliente(c)}"
+                                 onclick="return confirm('Deseja realmente excluir este cliente?');"/>
+
+            </h:column>
+
+        </h:dataTable>
+
+    </h:form>
+
+</h:body>
+
+</html>
