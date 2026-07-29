@@ -4,9 +4,10 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"> 
 
-<h:head></h:head> 
-<body> 
+<h:head>
+	<title>Gerenciamento de Encomendas</title>
 
+<<<<<<< feature/Entregador-Encomenda
 <h:messages />
 <h:form>
 <h:panelGrid columns="2">
@@ -29,31 +30,89 @@
 	<h:commandButton action="#{encomendaBean.gravar()}" value="Gravar" />
 </h:panelGrid>
 </h:form>
+=======
+	<h:outputStylesheet library="css" name="default.css" />
+	<h:outputStylesheet library="css" name="gerenciadores.css" />
+</h:head>
 
-<h:form>
-<h:dataTable border="1" value="#{encomendaBean.encomendas}" var="encoAtual">
-	<h:column>
-		<f:facet name="header">Código de Rastreio</f:facet>
-		<h:outputText value="#{encoAtual.codigoRastreio}" />
-	</h:column>
-	<h:column>
-		<f:facet name="header">Valor</f:facet>
-		<h:outputText value="#{encoAtual.valor}" />
-	</h:column>
-	<h:column>
-		<f:facet name="header">Cliente</f:facet>
-		<h:outputText value="#{encoAtual.cliente.nome}" />
-	</h:column>
-	<h:column>
-		<f:facet name="header">Entregador</f:facet>
-		<h:outputText value="#{encoAtual.entregador.nome}" />
-	</h:column>
-	<h:column>
-		<f:facet name="header">Ações</f:facet>
-		<h:commandButton action="#{encomendaBean.excluirEncomenda(encoAtual)}" value="Excluir" />
-		<h:commandButton action="#{encomendaBean.carregarEncomenda(encoAtual)}" value="Editar" />
-	</h:column>
-</h:dataTable>
-</h:form>
-</body> 
+<body>
+
+	<div id="conteudo">
+>>>>>>> local
+
+		<h1 class="titulo-pagina">Gerenciador de Encomendas</h1>
+
+		<h:messages styleClass="mensagens"/>
+
+		<h:form>
+			<h:link outcome="index" styleClass="botao botao-voltar" value="Voltar para tela inicial" />
+		</h:form>
+
+		<div class="painel">
+			<h2 class="subtitulo">Informações Basicas</h2>
+			<h:form>
+				<div class="grade-formulario">
+					<h:outputLabel value="Codigo de Rastreio:" />
+					<h:inputText required="true" value="#{encomendaBean.encomenda.codigoRastreio}" />
+
+					<h:outputLabel value="Valor:" />
+					<h:inputText required="true" value="#{encomendaBean.encomenda.valor}" />
+
+					<h:outputLabel value="Cliente:" />
+					<h:selectOneMenu value="#{encomendaBean.idCliente}">
+						<f:selectItem itemValue="0" itemLabel="Selecione..." />
+						<f:selectItems value="#{encomendaBean.clientes}" var="cliAtual"
+							itemLabel="#{cliAtual.nome}" itemValue="#{cliAtual.id}" />
+					</h:selectOneMenu>
+
+					<h:outputLabel value="Entregador:" />
+					<h:selectOneMenu required="true" value="#{encomendaBean.idEntregador}">
+						<f:selectItem itemValue="" itemLabel="Selecione..." />
+						<f:selectItems value="#{encomendaBean.entregadores}" var="entrAtual"
+							itemLabel="#{entrAtual.nome}" itemValue="#{entrAtual.id}" />
+					</h:selectOneMenu>
+				</div>
+
+				<h:panelGroup layout="block" styleClass="acoes-formulario">
+					<h:commandButton styleClass="botao" action="#{encomendaBean.gravar()}" value="Gravar" />
+				</h:panelGroup>
+			</h:form>
+		</div>
+
+		<div class="painel">
+			<h2 class="subtitulo">Encomendas Cadastradas</h2>
+			<h:form>
+				<h:dataTable border="0" value="#{encomendaBean.encomendas}" var="encoAtual" styleClass="tabela">
+					<h:column>
+						<f:facet name="header">Codigo de Rastreio</f:facet>
+						<h:outputText value="#{encoAtual.codigoRastreio}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Valor</f:facet>
+						<h:outputText value="#{encoAtual.valor}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Cliente</f:facet>
+						<h:outputText value="#{encoAtual.cliente.nome}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Entregador</f:facet>
+						<h:outputText value="#{encoAtual.entregador.nome}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Ações</f:facet>
+						<h:panelGroup layout="block" styleClass="acoes">
+							<h:commandButton styleClass="botao"
+								action="#{encomendaBean.excluirEncomenda(encoAtual)}" value="Excluir" />
+							<h:commandButton styleClass="botao"
+								action="#{encomendaBean.carregarEncomenda(encoAtual)}" value="Editar" />
+						</h:panelGroup>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</div>
+
+	</div>
+
+</body>
 </html>
