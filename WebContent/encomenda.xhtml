@@ -14,7 +14,6 @@
 <body>
 
 	<div id="conteudo">
-
 		<h1 class="titulo-pagina">Gerenciador de Encomendas</h1>
 
 		<h:messages styleClass="mensagens"/>
@@ -24,7 +23,7 @@
 		</h:form>
 
 		<div class="painel">
-			<h2 class="subtitulo">Informações Básicas</h2>
+			<h2 class="subtitulo">Insira as informações das encomendas</h2>
 			<h:form>
 				<div class="grade-formulario">
 					<h:outputLabel value="Codigo de Rastreio:" />
@@ -34,8 +33,8 @@
 					<h:inputText required="true" value="#{encomendaBean.encomenda.valor}" />
 
 					<h:outputLabel value="Cliente:" />
-					<h:selectOneMenu value="#{encomendaBean.idCliente}">
-						<f:selectItem itemValue="0" itemLabel="Selecione..." />
+					<h:selectOneMenu required="true" value="#{encomendaBean.idCliente}">
+						<f:selectItem itemValue="" itemLabel="Selecione..." />
 						<f:selectItems value="#{encomendaBean.clientes}" var="cliAtual"
 							itemLabel="#{cliAtual.nome}" itemValue="#{cliAtual.id}" />
 					</h:selectOneMenu>
@@ -71,6 +70,22 @@
 						<h:outputText value="#{encoAtual.cliente.nome}" />
 					</h:column>
 					<h:column>
+						<f:facet name="header">Número da residência</f:facet>
+						<h:outputText value="#{encoAtual.cliente.endereco.numero}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Rua</f:facet>
+						<h:outputText value="#{encoAtual.cliente.endereco.rua}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Bairro</f:facet>
+						<h:outputText value="#{encoAtual.cliente.endereco.bairro}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Cidade</f:facet>
+						<h:outputText value="#{encoAtual.cliente.endereco.cidade}" />
+					</h:column>
+					<h:column>
 						<f:facet name="header">Entregador</f:facet>
 						<h:outputText value="#{encoAtual.entregador.nome}" />
 					</h:column>
@@ -86,8 +101,6 @@
 				</h:dataTable>
 			</h:form>
 		</div>
-
 	</div>
-
 </body>
 </html>
