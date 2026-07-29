@@ -4,6 +4,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"> 
 
+<<<<<<< feature/Entregador-Encomenda
 <h:head></h:head> 
 <body> 
 <h:messages />
@@ -93,7 +94,129 @@
 		</h:column>	
 	</h:dataTable>
 </h:form>
+=======
+<h:head>
+	<title>Gerenciamento de Entregadores</title>
+>>>>>>> local
 
+	<h:outputStylesheet library="css" name="default.css" />
+	<h:outputStylesheet library="css" name="gerenciadores.css" />
+</h:head>
+
+<body>
+
+	<div id="conteudo">
+
+		<h1 class="titulo-pagina">Gerenciador de Entregadores</h1>
+
+		<h:messages styleClass="mensagens"/>
+
+		<h:form>
+			<h:link outcome="index" styleClass="botao botao-voltar" value="Voltar para tela inicial" />
+		</h:form>
+
+		<div class="painel">
+			<h2 class="subtitulo">Informações Basicas</h2>
+			<h:form>
+				<div class="grade-formulario">
+					<h:outputLabel value="Nome:" />
+					<h:inputText value="#{entregadorBean.entregador.nome}" required="true" />
+
+					<h:outputLabel value="Celular:" />
+					<h:inputText value="#{entregadorBean.entregador.celular}" required="true" />
+
+					<h:outputLabel value="CNH:" />
+					<h:inputText value="#{entregadorBean.entregador.cnh}" required="true" />
+
+					<h:outputLabel value="Categoria CNH:" />
+					<h:selectOneMenu value="#{entregadorBean.entregador.categoriaCnh}" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItem itemLabel="A" itemValue="A" />
+						<f:selectItem itemLabel="B" itemValue="B" />
+						<f:selectItem itemLabel="AB" itemValue="AB" />
+					</h:selectOneMenu>
+				</div>
+
+				<h2 class="subtitulo">Endereço</h2>
+				<div class="grade-formulario">
+					<h:outputLabel value="Rua:" />
+					<h:inputText value="#{entregadorBean.entregador.endereco.rua}" required="true" />
+
+					<h:outputLabel value="Numero:" />
+					<h:inputText value="#{entregadorBean.entregador.endereco.numero}" required="true" />
+
+					<h:outputLabel value="Bairro:" />
+					<h:inputText value="#{entregadorBean.entregador.endereco.bairro}" required="true" />
+
+					<h:outputLabel value="Cidade:" />
+					<h:inputText value="#{entregadorBean.entregador.endereco.cidade}" required="true" />
+				</div>
+
+				<h:panelGroup layout="block" styleClass="acoes-formulario">
+					<h:commandButton styleClass="botao" action="#{entregadorBean.gravarEntregador()}"
+						value="Salvar" rendered="#{!entregadorBean.edicao}" />
+					<h:commandButton styleClass="botao" action="#{entregadorBean.atualizarEntregador()}"
+						value="Atualizar" rendered="#{entregadorBean.edicao}" />
+				</h:panelGroup>
+			</h:form>
+		</div>
+
+		<div class="painel">
+			<h2 class="subtitulo">Entregadores Cadastrados</h2>
+			<h:form>
+				<div class="grade-pesquisa">
+					<h:outputLabel value="Nome:" />
+					<h:inputText value="#{entregadorBean.texto}" />
+					<h:commandButton styleClass="botao" action="#{entregadorBean.pesquisarEntregador()}" value="Pesquisar" />
+				</div>
+
+				<h:dataTable value="#{entregadorBean.entregadores}" var="entrAtual" styleClass="tabela">
+					<h:column>
+						<f:facet name="header">Nome</f:facet>
+						<h:outputText value="#{entrAtual.nome}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Celular</f:facet>
+						<h:outputText value="#{entrAtual.celular}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">CNH</f:facet>
+						<h:outputText value="#{entrAtual.cnh}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Categoria da CNH</f:facet>
+						<h:outputText value="#{entrAtual.categoriaCnh}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Cidade</f:facet>
+						<h:outputText value="#{entrAtual.endereco.cidade}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Bairro</f:facet>
+						<h:outputText value="#{entrAtual.endereco.bairro}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Rua</f:facet>
+						<h:outputText value="#{entrAtual.endereco.rua}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Numero</f:facet>
+						<h:outputText value="#{entrAtual.endereco.numero}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Ações</f:facet>
+						<h:panelGroup layout="block" styleClass="acoes">
+							<h:commandButton styleClass="botao"
+								action="#{entregadorBean.excluirEntregador(entrAtual)}" value="Excluir" />
+							<h:commandButton styleClass="botao"
+								action="#{entregadorBean.carregarEntregador(entrAtual)}" value="Editar" />
+						</h:panelGroup>
+					</h:column>
+				</h:dataTable>
+			</h:form>
+		</div>
+
+	</div>
 
 </body> 
 </html>
