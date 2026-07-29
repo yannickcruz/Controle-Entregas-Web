@@ -7,37 +7,6 @@
 <h:head>
 	<title>Gerenciamento de Encomendas</title>
 
-<<<<<<< feature/Entregador-Encomenda
-<h:messages />
-
-<h:form>
-<h:panelGrid columns="1">
-	<h:commandLink action="index?faces-redirect=true" value="Voltar para tela inicial" />
-</h:panelGrid>
-</h:form>
-
-<h:form>
-<h:panelGrid columns="2">
-	<h:outputLabel value="Código de Rastreio:" />
-	<h:inputText required="true" value="#{encomendaBean.encomenda.codigoRastreio}" />
-	<h:outputLabel value="Valor:" />
-	<h:inputText required="true" value="#{encomendaBean.encomenda.valor}" />
-	<h:outputLabel value="Cliente:" />
-	<h:selectOneMenu value="#{encomendaBean.idCliente}">
-		<f:selectItem itemValue="0" itemLabel="Selecione..."/>
-		<f:selectItems value="#{encomendaBean.clientes}" var="cliAtual"
-			itemLabel="#{cliAtual.nome}" itemValue="#{cliAtual.id}"/>
-	</h:selectOneMenu>
-	<h:outputLabel value="Entregador:" />
-	<h:selectOneMenu required="true" value="#{encomendaBean.idEntregador}">
-		<f:selectItem itemValue="" itemLabel="Selecione..."/>
-		<f:selectItems value="#{encomendaBean.entregadores}" var="entrAtual"
-			itemLabel="#{entrAtual.nome}" itemValue="#{entrAtual.id}"/>
-	</h:selectOneMenu>
-	<h:commandButton action="#{encomendaBean.gravar()}" value="Gravar" />
-</h:panelGrid>
-</h:form>
-=======
 	<h:outputStylesheet library="css" name="default.css" />
 	<h:outputStylesheet library="css" name="gerenciadores.css" />
 </h:head>
@@ -45,7 +14,6 @@
 <body>
 
 	<div id="conteudo">
->>>>>>> local
 
 		<h1 class="titulo-pagina">Gerenciador de Encomendas</h1>
 
@@ -56,7 +24,7 @@
 		</h:form>
 
 		<div class="painel">
-			<h2 class="subtitulo">Informações Basicas</h2>
+			<h2 class="subtitulo">Informações Básicas</h2>
 			<h:form>
 				<div class="grade-formulario">
 					<h:outputLabel value="Codigo de Rastreio:" />
@@ -91,7 +59,7 @@
 			<h:form>
 				<h:dataTable border="0" value="#{encomendaBean.encomendas}" var="encoAtual" styleClass="tabela">
 					<h:column>
-						<f:facet name="header">Codigo de Rastreio</f:facet>
+						<f:facet name="header">Código de Rastreio</f:facet>
 						<h:outputText value="#{encoAtual.codigoRastreio}" />
 					</h:column>
 					<h:column>
