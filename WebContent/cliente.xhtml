@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Gerenciar Clientes</title>
+    <h:outputStylesheet name="css/default.css" />
+    <h:outputStylesheet name="css/cliente.css" />
+</h:head>
+
+<h:body>
+
+<div id="conteudo-clientes">
+
+    <h1 class="titulo-clientes">Gerenciar Clientes</h1>
+
+    <h:form>
+        <div class="painel-cliente">
+
+            <h2 class="subtitulo-cliente">
+                #{clienteBean.edicao ? 'Editar Cliente' : 'Cadastro de Cliente'}
+                <span class="badge-status #{clienteBean.edicao ? 'edicao' : 'ativo'}">
+                    #{clienteBean.edicao ? 'Em edição' : 'Novo'}
+                </span>
+            </h2>
+
+            <h:messages globalOnly="false" styleClass="mensagens-cliente" layout="table"/>
+
+            <div class="grade-cliente-formulario">
+
+                <h:outputLabel value="Nome:" styleClass="rotulo-cliente"/>
+                <h:inputText value="#{clienteBean.cliente.nome}"
+                             styleClass="campo-cliente"
+                             required="true"
+                             requiredMessage="Informe o nome."/>
+
+                <h:outputLabel value="CPF:" styleClass="rotulo-cliente"/>
+                <h:inputText value="#{clienteBean.cliente.cpf}"
+                             styleClass="campo-cliente cpf-destaque"
+                             required="true"
+                             requiredMessage="Informe o CPF."
+                             disabled="#{clienteBean.edicao}">
+                    <f:validateLength minimum="11" maximum="11"/>
+                </h:inputText>
+
+                <h:outputLabel value="Celular:" styleClass="rotulo-cliente"/>
+                <h:inputText value="#{clienteBean.cliente.celular}"
+                             styleClass="campo-cliente"
+                             required="true"
+                             requiredMessage="Informe o celular."/>
+
+            </div>
+
+            <div class="secao-endereco">
+
+                <h3 class="subtitulo-cliente">Endereço</h3>
+
+                <div class="grade-cliente-endereco">
+
+                    <h:outputLabel value="Rua:" styleClass="rotulo-cliente"/>
+                    <h:inputText value="#{clienteBean.cliente.endereco.rua}"
+                                 styleClass="campo-cliente"
+                                 required="true"
+                                 requiredMessage="Informe a rua."/>
+
+                    <h:outputLabel value="Número:" styleClass="rotulo-cliente"/>
+                    <h:inputText value="#{clienteBean.cliente.endereco.numero}"
+                                 styleClass="campo-cliente"
+                                 required="true"
+                                 requiredMessage="Informe o número."/>
+
+                    <h:outputLabel value="Bairro:" styleClass="rotulo-cliente"/>
+                    <h:inputText value="#{clienteBean.cliente.endereco.bairro}"
+                                 styleClass="campo-cliente"
+                                 required="true"
+                                 requiredMessage="Informe o bairro."/>
+
+                    <h:outputLabel value="Cidade:" styleClass="rotulo-cliente"/>
+                    <h:inputText value="#{clienteBean.cliente.endereco.cidade}"
+                                 styleClass="campo-cliente"
+                                 required="true"
+                                 requiredMessage="Informe a cidade."/>
+
+                </div>
+
+            </div>
+
+            <div class="acoes-formulario">
+
+                <h:commandButton value="Salvar"
+                                 styleClass="botao-cliente"
+                                 action="#{clienteBean.salvarCliente}"
+                                 rendered="#{!clienteBean.edicao}" />
+
+                <h:commandButton value="Atualizar"
+                                 styleClass="botao-cliente"
+                                 action="#{clienteBean.editarCliente}"
+                                 rendered="#{clienteBean.edicao}" />
+
+                <h:commandButton value="Novo"
+                                 styleClass="botao-cliente"
+                                 action="#{clienteBean.novoCliente}"
+                                 immediate="true"/>
+
+            </div>
+
+        </div>
+    </h:form>
+
+    <h:form>
+        <div class="painel-cliente">
+
+            <h2 class="subtitulo-cliente">Clientes Cadastrados</h2>
+
+            <h:dataTable value="#{clienteBean.listaClientes}"
+                         var="c"
+                         styleClass="tabela-clientes">
+
+                <h:column>
+                    <f:facet name="header">Nome</f:facet>
+                    #{c.nome}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">CPF</f:facet>
+                    <span class="cpf-destaque">#{c.cpf}</span>
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Celular</f:facet>
+                    #{c.celular}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Rua</f:facet>
+                    #{c.endereco.rua}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Número</f:facet>
+                    #{c.endereco.numero}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Bairro</f:facet>
+                    #{c.endereco.bairro}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Cidade</f:facet>
+                    #{c.endereco.cidade}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Ações</f:facet>
+
+                    <div class="acoes-cliente">
+                        <h:commandButton value="Editar"
+                                         styleClass="botao-cliente"
+                                         action="#{clienteBean.carregarCliente(c)}"/>
+
+                        <h:commandButton value="Excluir"
+                                         styleClass="botao-cliente excluir"
+                                         action="#{clienteBean.excluirCliente(c)}"
+                                         onclick="return confirm('Deseja realmente excluir este cliente?');"/>
+                    </div>
+
+                </h:column>
+
+            </h:dataTable>
+
+        </div>
+    </h:form>
+
+</div>
+
+</h:body>
+
+</html>

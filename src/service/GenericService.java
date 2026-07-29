@@ -33,10 +33,9 @@ public abstract class GenericService<T> {
         getEntityManager().persist(entity); 
     }
 
-    public void merge(T entity){
-			entity = getEntityManager().merge(entity);			
-    }
-
+	public T merge(T entity){
+	    return getEntityManager().merge(entity);
+	}
     
     public void remove(T entity) {
 	        getEntityManager().remove(getEntityManager().merge(entity));		  
@@ -58,5 +57,3 @@ public abstract class GenericService<T> {
     	return list;
     }	
 }
-
-
