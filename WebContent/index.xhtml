@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head>
+    <title>Sistema de Gerenciamento de Entregas</title>
+
+    <h:outputStylesheet library="css" name="default.css"/>
+    <h:outputStylesheet library="css" name="index.css"/>
+</h:head>
+
+<h:body>
+<div id="pagina">
+    <header id="cabecalho">
+        <h1 class="titulo-principal">Sistema de Gerenciamento de Entregas</h1>
+        
+        <p class="texto-apresentacao">
+            Bem-vindo ao sistema de Controle de Entregas! Selecione as opções de gerenciamento de
+            Clientes, Entregadores e Encomendas ou abra o relatório geral.
+        </p>
+    </header>
+
+    <section id="conteudo">
+        <h:form id="formularioMenu">
+            <div id="cartoes">
+                <div class="cartao">
+                    <h2 class="titulo-cartao">Entregadores</h2>
+                    <p class="descricao-cartao">
+                        Cadastre, consulte, altere e remova os entregadores
+                        registrados no sistema.
+                    </p>
+                    <h:commandLink
+                        action="entregador?faces-redirect=true"
+                        value="Gerenciar Entregadores"
+                        styleClass="botao-menu"/>
+                </div>
+                <div class="cartao">
+                    <h2 class="titulo-cartao">Encomendas</h2>
+                    <p class="descricao-cartao">
+                        Cadastre, consulte, altere e acompanhe as encomendas
+                        registradas no sistema.
+                    </p>
+                    <h:commandLink
+                        action="encomenda?faces-redirect=true"
+                        value="Gerenciar Encomendas"
+                        styleClass="botao-menu"/>
+                </div>
+            </div>
+        </h:form>
+    </section>
+</div>
+</h:body>
+</html>
