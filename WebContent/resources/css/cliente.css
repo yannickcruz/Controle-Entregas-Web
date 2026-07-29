@@ -149,6 +149,11 @@ select.campo-cliente:focus{
     transform:translateY(-2px);
 }
 
+.botao-voltar{
+    margin-bottom:25px;
+    display:inline-block;
+}
+
 .botao-cliente.excluir{
     background:#c62828;
     color:#ffffff !important;
