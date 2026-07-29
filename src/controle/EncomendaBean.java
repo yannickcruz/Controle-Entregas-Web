@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import modelo.Cliente;
 import modelo.Encomenda;
 import modelo.Entregador;
+import service.ClienteService;
 import service.EncomendaService;
 import service.EntregadorService;
 
@@ -24,11 +25,9 @@ public class EncomendaBean {
 	private EncomendaService EncomendaService;
 	@EJB
 	private EntregadorService EntregadorService;
-	/*
-	 * A ser implementado
 	@EJB
 	private ClienteService ClienteService;
-	*/
+
 	
 	private Encomenda encomenda = new Encomenda();
 	private List<Encomenda> encomendas = new ArrayList<Encomenda>();
@@ -54,15 +53,14 @@ public class EncomendaBean {
 	
 	public void carregarEncomenda(Encomenda e) {
 		encomenda = e;
-		//idCliente = e.getCliente().getId();
+		idCliente = e.getCliente().getId();
 		idEntregador = e.getEntregador().getId();
 	}
 	
 	public void gravar() {
-		// Relacionando cliente e entregador à encomenda
-		//Cliente cli = ClienteService.obtemPorId(idCliente);
+		Cliente cli = ClienteService.obtemPorId(idCliente);
 		Entregador ent = EntregadorService.obtemPorId(idEntregador);
-		//encomenda.setCliente(cli);
+		encomenda.setCliente(cli);
 		encomenda.setEntregador(ent);
 
 		String msg;
@@ -84,8 +82,7 @@ public class EncomendaBean {
 	
 	@PostConstruct
 	public void iniciar() {
-		//A ser implementado
-		//clientes = clienteService.listAll();
+		clientes = ClienteService.listAll();
 		entregadores = EntregadorService.listAll();
 		atualizarLista();
 	}
