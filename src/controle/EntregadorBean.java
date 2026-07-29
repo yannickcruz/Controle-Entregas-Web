@@ -21,6 +21,8 @@ public class EntregadorBean {
 	
 	@EJB
 	private EntregadorService EntregadorService;
+	@EJB
+	EncomendaService EncomendaService;
 	private Entregador entregador = new Entregador();
 	private List<Entregador> entregadores = new ArrayList<Entregador>();
 	private boolean edicao = false;
@@ -35,6 +37,11 @@ public class EntregadorBean {
 	}
 	
 	public void excluirEntregador(Entregador e) {
+		if(EncomendaService.existeEncomendaEntregador(e.getId())) {
+			FacesContext.getCurrentInstance().addMessage("msg",
+					new FacesMessage("Não foi possível excluir! Entregador atrelado a uma encomenda!"));
+			return;
+		}
 		EntregadorService.remove(e);
 		FacesContext.getCurrentInstance().addMessage("msg", new FacesMessage("Entregador Excluído!"));
 		atualizarLista();

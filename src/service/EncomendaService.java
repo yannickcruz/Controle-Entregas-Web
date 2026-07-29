@@ -16,6 +16,22 @@ public class EncomendaService extends GenericService<Encomenda> {
 		super(Encomenda.class);
 	}
 	
+	public boolean existeEncomendaEntregador(Long idEntregador) {
+		final CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
+	    final CriteriaQuery<Long> cQuery = cBuilder.createQuery(Long.class);
+	    final Root<Encomenda> rootEncomenda = cQuery.from(Encomenda.class);
+	    cQuery.select(cBuilder.count(rootEncomenda));
+	    
+	    cQuery.where(cBuilder.equal(rootEncomenda.get("entregador").get("id"), idEntregador));
+	    
+	    Long quantidade = getEntityManager().createQuery(cQuery).getSingleResult();
+	    if(quantidade > 0) {
+	    	return true;
+	    }
+	    return false;
+
+	}
+	
 	public List<Encomenda> pesquisarEncomendaPorCodigo(String texto){
 	    
 	    final CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
