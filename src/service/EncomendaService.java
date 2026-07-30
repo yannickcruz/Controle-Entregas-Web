@@ -1,19 +1,58 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import modelo.Encomenda;
+import modelo.Entregador;
 
 @Stateless
 public class EncomendaService extends GenericService<Encomenda> {
 	
 	public EncomendaService() {
 		super(Encomenda.class);
+	}
+	
+	public List<Encomenda> filtrosRelatorio(Long idEntregador, String cidadeCliente, double precoEncomenda){
+		final CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
+	    final CriteriaQuery<Encomenda> cQuery = cBuilder.createQuery(Encomenda.class);
+	    final Root<Encomenda> rootEncomenda = cQuery.from(Encomenda.class);
+	    cQuery.select(rootEncomenda);
+	    
+	    final Expression<Long> expEntregador = rootEncomenda.get("entregador").get("id");
+	    final Expression<String> expCidadeCliente = rootEncomenda.get("cliente").get("endereco").get("cidade");
+	    final Expression<Double> expPrecoEncomenda = rootEncomenda.get("valor");
+	    final Expression<String> expClienteNome = rootEncomenda.get("cliente").get("nome");
+	    
+	    List<Predicate> predicados = new ArrayList<Predicate>();
+	    
+	    if(expEntregador != null) {
+	    	final Predicate entregadorSelecionado = cBuilder.equal(expEntregador, idEntregador);
+	    	predicados.add(entregadorSelecionado);
+	    }
+	    if(expCidadeCliente != null) {
+	    	final Predicate cidadeLike = cBuilder.like(expCidadeCliente, cidadeCliente);
+	    	predicados.add(cidadeLike);
+	    }
+	    if(expPrecoEncomenda != null) {
+	    	final Predicate precoMenor = cBuilder.lt(expPrecoEncomenda, precoEncomenda);
+	    	predicados.add(precoMenor);
+	    }
+	    
+	    if(predicados.isEmpty() == false) {
+	    	cQuery.where(predicados.toArray(new Predicate[0]));
+	    }
+	    
+	    cQuery.orderBy(cBuilder.asc(expClienteNome));
+	    
+	    List<Encomenda> list = getEntityManager().createQuery(cQuery).getResultList();
+    	return list;
 	}
 	
 	public boolean existeEncomendaEntregador(Long idEntregador) {
