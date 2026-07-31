@@ -25,12 +25,12 @@
 #cartoes{
     display:flex;
     justify-content:center;
-    gap:40px;
+    gap:0.5rem;
     flex-wrap:wrap;
 }
 
 .cartao{
-    width:360px;
+    width:20rem;
     background:#1d1d1d;
     border:1px solid #353535;
     border-radius:14px;
