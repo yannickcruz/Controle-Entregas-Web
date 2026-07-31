@@ -30,20 +30,20 @@
 			<h:form>
 				<div class="grade-formulario">
 					<h:outputLabel value="Codigo de Rastreio:" />
-					<h:inputText required="true" value="#{encomendaBean.encomenda.codigoRastreio}" />
+					<h:inputText required="true" value="#{encomendaBean.encomenda.codigoRastreio}" requiredMessage="Código de Rastreio não inserido."/>
 
 					<h:outputLabel value="Valor:" />
-					<h:inputText required="true" value="#{encomendaBean.encomenda.valor}" />
+					<h:inputText required="true" value="#{encomendaBean.encomenda.valor}" requiredMessage="Valor não inserido."/>
 
 					<h:outputLabel value="Cliente:" />
-					<h:selectOneMenu required="true" value="#{encomendaBean.idCliente}">
+					<h:selectOneMenu required="true" value="#{encomendaBean.idCliente}" requiredMessage="Cliente não inserido.">
 						<f:selectItem itemValue="" itemLabel="Selecione..." />
 						<f:selectItems value="#{encomendaBean.clientes}" var="cliAtual"
 							itemLabel="#{cliAtual.nome}" itemValue="#{cliAtual.id}" />
 					</h:selectOneMenu>
 
 					<h:outputLabel value="Entregador:" />
-					<h:selectOneMenu required="true" value="#{encomendaBean.idEntregador}">
+					<h:selectOneMenu required="true" value="#{encomendaBean.idEntregador}" requiredMessage="Entregador não inserido">
 						<f:selectItem itemValue="" itemLabel="Selecione..." />
 						<f:selectItems value="#{encomendaBean.entregadores}" var="entrAtual"
 							itemLabel="#{entrAtual.nome}" itemValue="#{entrAtual.id}" />

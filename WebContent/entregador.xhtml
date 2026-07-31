@@ -26,16 +26,16 @@
 			<h:form>
 				<div class="grade-formulario">
 					<h:outputLabel value="Nome:" />
-					<h:inputText value="#{entregadorBean.entregador.nome}" required="true" />
+					<h:inputText value="#{entregadorBean.entregador.nome}" required="true" requiredMessage="Nome não inserido."/>
 
 					<h:outputLabel value="Celular:" />
-					<h:inputText value="#{entregadorBean.entregador.celular}" required="true" />
+					<h:inputText value="#{entregadorBean.entregador.celular}" required="true" requiredMessage="Celular não inserido."/>
 
 					<h:outputLabel value="CNH:" />
-					<h:inputText value="#{entregadorBean.entregador.cnh}" required="true" />
+					<h:inputText value="#{entregadorBean.entregador.cnh}" required="true" requiredMessage="CNH não inserida."/>
 
 					<h:outputLabel value="Categoria CNH:" />
-					<h:selectOneMenu value="#{entregadorBean.entregador.categoriaCnh}" required="true">
+					<h:selectOneMenu value="#{entregadorBean.entregador.categoriaCnh}" required="true" requiredMessage="Categoria da CNH não inserida.">
 						<f:selectItem itemLabel="Selecione" itemValue="" />
 						<f:selectItem itemLabel="A" itemValue="A" />
 						<f:selectItem itemLabel="B" itemValue="B" />
@@ -46,16 +46,16 @@
 				<h2 class="subtitulo">Endereço</h2>
 				<div class="grade-formulario">
 					<h:outputLabel value="Rua:" />
-					<h:inputText value="#{entregadorBean.entregador.endereco.rua}" required="true" />
+					<h:inputText value="#{entregadorBean.entregador.endereco.rua}" required="true" requiredMessage="Rua não inserida."/>
 
 					<h:outputLabel value="Numero:" />
-					<h:inputText value="#{entregadorBean.entregador.endereco.numero}" required="true" />
+					<h:inputText value="#{entregadorBean.entregador.endereco.numero}" required="true" requiredMessage="Número não inserido."/>
 
 					<h:outputLabel value="Bairro:" />
-					<h:inputText value="#{entregadorBean.entregador.endereco.bairro}" required="true" />
+					<h:inputText value="#{entregadorBean.entregador.endereco.bairro}" required="true" requiredMessage="Bairro não inserido."/>
 
 					<h:outputLabel value="Cidade:" />
-					<h:inputText value="#{entregadorBean.entregador.endereco.cidade}" required="true" />
+					<h:inputText value="#{entregadorBean.entregador.endereco.cidade}" required="true" requiredMessage="Cidade não inserida."/>
 				</div>
 
 				<h:panelGroup layout="block" styleClass="acoes-formulario">
