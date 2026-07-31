@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head>
+	<title>Relatório de Encomendas</title>
+
+	<h:outputStylesheet library="css" name="default.css" />
+	<h:outputStylesheet library="css" name="gerenciadores.css" />
+</h:head> 
+<body> 
+	<div id="conteudo">
+		<h1 class="titulo-pagina">Relatório de Encomendas</h1>
+
+		<h:form>
+			<h:link outcome="index" styleClass="botao botao-voltar" value="Voltar para tela inicial" />
+		</h:form>
+
+		<div class="painel">
+			<h2 class="subtitulo">Filtrar Encomendas</h2>
+			<h:form>
+				<div class="grade-formulario">
+					<h:outputLabel value="Selecionar Entregador:" />
+					<h:selectOneMenu value="#{relatorioBean.idEntregador}">
+						<f:selectItem itemValue="" itemLabel="Todos" />
+						<f:selectItems value="#{entregadorBean.entregadores}" var="entrAtual"
+							itemLabel="#{entrAtual.nome}" itemValue="#{entrAtual.id}" />
+					</h:selectOneMenu>
+
+					<h:outputLabel value="Cidade do Cliente:" />
+					<h:inputText value="#{relatorioBean.cidadeCliente}" />
+
+					<h:outputLabel value="Valor da Encomenda:" />
+					<h:inputText value="#{relatorioBean.precoEncomenda}" />
+				</div>
+
+				<h:panelGroup layout="block" styleClass="acoes-formulario">
+					<h:commandButton styleClass="botao" action="#{relatorioBean.filtrarEncomendas()}" value="Filtrar" />
+				</h:panelGroup>
+			</h:form>
+
+			<h:dataTable value="#{relatorioBean.encomendas}" var="encoAtual" styleClass="tabela">
+				<h:column>
+					<f:facet name="header">Nome do Cliente</f:facet>
+					<h:outputText value="#{encoAtual.cliente.nome}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Nome do Entregador</f:facet>
+					<h:outputText value="#{encoAtual.entregador.nome}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Codigo da Encomenda</f:facet>
+					<h:outputText value="#{encoAtual.codigoRastreio}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Valor</f:facet>
+					<h:outputText value="#{encoAtual.valor}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Cidade</f:facet>
+					<h:outputText value="#{encoAtual.cliente.endereco.cidade}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Bairro</f:facet>
+					<h:outputText value="#{encoAtual.cliente.endereco.bairro}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Rua</f:facet>
+					<h:outputText value="#{encoAtual.cliente.endereco.rua}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Numero</f:facet>
+					<h:outputText value="#{encoAtual.cliente.endereco.numero}" />
+				</h:column>
+			</h:dataTable>
+		</div>
+	</div>
+</body> 
+</html>
