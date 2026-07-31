@@ -94,12 +94,6 @@ select:focus{
     padding:12px;
     border:1px solid #404040;
 }
-.tabela tr:nth-child(even){
-    background:#242424;
-}
-.tabela tr:hover{
-    background:#313131;
-}
 .acoes{
     display:flex;
     gap:10px;

@@ -19,7 +19,10 @@
 		<h:messages styleClass="mensagens"/>
 
 		<h:form>
-			<h:link outcome="index" styleClass="botao botao-voltar" value="Voltar para tela inicial" />
+			<h:commandLink
+			 action="index?faces-redirect=true"
+			 styleClass="botao botao-voltar"
+			 value="Voltar para tela inicial" />
 		</h:form>
 
 		<div class="painel">

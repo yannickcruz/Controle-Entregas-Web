@@ -19,7 +19,7 @@ public class EncomendaService extends GenericService<Encomenda> {
 		super(Encomenda.class);
 	}
 	
-	public List<Encomenda> filtrosRelatorio(Long idEntregador, String cidadeCliente, double precoEncomenda){
+	public List<Encomenda> filtrosRelatorio(Long idEntregador, String cidadeCliente, Double precoEncomenda){
 		final CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
 	    final CriteriaQuery<Encomenda> cQuery = cBuilder.createQuery(Encomenda.class);
 	    final Root<Encomenda> rootEncomenda = cQuery.from(Encomenda.class);
@@ -32,15 +32,15 @@ public class EncomendaService extends GenericService<Encomenda> {
 	    
 	    List<Predicate> predicados = new ArrayList<Predicate>();
 	    
-	    if(expEntregador != null) {
+	    if(idEntregador != null) {
 	    	final Predicate entregadorSelecionado = cBuilder.equal(expEntregador, idEntregador);
 	    	predicados.add(entregadorSelecionado);
 	    }
-	    if(expCidadeCliente != null) {
-	    	final Predicate cidadeLike = cBuilder.like(expCidadeCliente, cidadeCliente);
+	    if(cidadeCliente != null) {
+	    	final Predicate cidadeLike = cBuilder.like(expCidadeCliente, "%"+cidadeCliente+"%");
 	    	predicados.add(cidadeLike);
 	    }
-	    if(expPrecoEncomenda != null) {
+	    if(precoEncomenda != null) {
 	    	final Predicate precoMenor = cBuilder.lt(expPrecoEncomenda, precoEncomenda);
 	    	predicados.add(precoMenor);
 	    }
@@ -59,9 +59,14 @@ public class EncomendaService extends GenericService<Encomenda> {
 		final CriteriaBuilder cBuilder = getEntityManager().getCriteriaBuilder();
 	    final CriteriaQuery<Long> cQuery = cBuilder.createQuery(Long.class);
 	    final Root<Encomenda> rootEncomenda = cQuery.from(Encomenda.class);
-	    cQuery.select(cBuilder.count(rootEncomenda));
 	    
-	    cQuery.where(cBuilder.equal(rootEncomenda.get("entregador").get("id"), idEntregador));
+	    final Expression<Long> expIdEntregador = rootEncomenda.get("entregador").get("id");
+	    final Expression<Long> expTotalEncomendas = cBuilder.count(rootEncomenda);
+	    
+	    final Predicate entregadorIgual = cBuilder.equal(expIdEntregador, idEntregador);
+
+	    cQuery.select(expTotalEncomendas);
+	    cQuery.where(entregadorIgual);
 	    
 	    Long quantidade = getEntityManager().createQuery(cQuery).getSingleResult();
 	    if(quantidade > 0) {

@@ -167,3 +167,8 @@ select.campo-cliente:focus{
     margin-bottom:20px;
     color:#ffffff;
 }
+
+.acoes-formulario{
+	display: flex;
+	gap: 1rem;
+}
